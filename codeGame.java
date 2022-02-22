@@ -11,7 +11,7 @@ public class codeGame {
 
     //how many lives
     public String liveCount(){
-        return "You have " + lives + "lives left";
+        return "You have " + lives + " lives left";
     }
 
     //guess
@@ -36,13 +36,37 @@ public class codeGame {
         }
     }
 
+    //right digit
+    public String correctDigit(int guess){
+        lives-=12;
+        String temp = Integer.toString(guess);
+        String temp2 = Integer.toString(answer);
+        String output = "";
+        int[] guessArray = new int[temp.length()];
+        int[] answerArray = new int[temp.length()];
+        for (int i = 0; i < temp.length(); i++)
+        {
+            guessArray[i] = temp.charAt(i) - '0';
+            answerArray[i] = temp2.charAt(i) - '0';
+        }
+
+        for (int i = 0; i < temp.length(); i++){
+            if (guessArray[i] == answerArray[i]){
+                output += "G";
+            }
+            else{
+                output += "B";
+            }
+        }
+        return output;
+    }
 
     public static void main(String arg[]){
 
         //System.out.println("Hello World");
         codeGame cG = new codeGame();
 
-        System.out.println("Answer: " + cG.answer);
+        //System.out.println("Answer: " + cG.answer);
 
         Scanner sc = new Scanner(System.in);
 
@@ -50,9 +74,10 @@ public class codeGame {
 
         do{
 
-            System.out.println("To know how many lives you have left, enter 0");
-            System.out.println("To take a guess, enter 1 XXXX (-1 life)");
-            System.out.println("To know higher or lower, enter 2 XXXX (-10 lives)");
+            System.out.println("To know lives, enter 0");
+            System.out.println("To guess, enter 1 XXXX (-1 life)");
+            System.out.println("Higher or lower, enter 2 XXXX (-10 lives)");
+            System.out.println("Correct digits, enter 3 XXXX (-12 lives)");
             System.out.println("What would you like to do? ");
             String guess = sc.nextLine();
 
@@ -77,6 +102,9 @@ public class codeGame {
             }
             else if (command == 2){
                 System.out.println(cG.higherLower(value));
+            }
+            else if (command == 3){
+                System.out.println(cG.correctDigit(value));
             }
         }
         while(cG.lives>0);
