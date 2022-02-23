@@ -36,7 +36,7 @@ public class codeGame {
         }
     }
 
-    //right digit
+    //right digit right spot
     public String correctDigit(int guess){
         lives-=12;
         String temp = Integer.toString(guess);
@@ -61,12 +61,42 @@ public class codeGame {
         return output;
     }
 
+    //right digits wrong spot
+    public String rightDigits(int guess){
+        lives-=3;
+        String temp = Integer.toString(guess);
+        String temp2 = Integer.toString(answer);
+        String output = "";
+        int[] guessArray = new int[temp.length()];
+        int[] answerArray = new int[temp.length()];
+        for (int i = 0; i < temp.length(); i++)
+        {
+            guessArray[i] = temp.charAt(i) - '0';
+            answerArray[i] = temp2.charAt(i) - '0';
+        }
+        int check=0;
+        for (int i = 0; i < temp.length(); i++){
+            check = 0;
+            for (int j = 0; j < temp2.length(); j++){
+                if (guessArray[i]==answerArray[j] && check==0){
+                    output += "Y";
+                    answerArray[j] = -1;
+                    check=1;
+                }
+            }
+            if (check == 0){
+                output += "N";
+            }
+        }
+        return output;
+    }
+
     public static void main(String arg[]){
 
         //System.out.println("Hello World");
         codeGame cG = new codeGame();
 
-        //System.out.println("Answer: " + cG.answer);
+        System.out.println("Answer: " + cG.answer);
 
         Scanner sc = new Scanner(System.in);
 
@@ -78,6 +108,7 @@ public class codeGame {
             System.out.println("To guess, enter 1 XXXX (-1 life)");
             System.out.println("Higher or lower, enter 2 XXXX (-10 lives)");
             System.out.println("Correct digits, enter 3 XXXX (-12 lives)");
+            System.out.println("Good digits but wrong spot, enter 4 XXXX (-3 lives)");
             System.out.println("What would you like to do? ");
             String guess = sc.nextLine();
 
@@ -105,6 +136,9 @@ public class codeGame {
             }
             else if (command == 3){
                 System.out.println(cG.correctDigit(value));
+            }
+            else if (command == 4){
+                System.out.println(cG.rightDigits(value));
             }
         }
         while(cG.lives>0);
